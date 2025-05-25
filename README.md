@@ -1,1 +1,8 @@
 # News_Analyzer
+VITE_SUPABASE_URL=https://rqrivvhkjulrgityejlj.supabase.co
+VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJxcml2dmhranVscmdpdHllamxqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDczMzg5NDksImV4cCI6MjA2MjkxNDk0OX0.TVh7Xg40k6NHHRT4krpA_Xnf60ZM494fRCnSyh42ql0
+
+MONGODB_URI= mongodb+srv://RockZ:RockZ@12@truthframe.j9hcqwx.mongodb.net/?retryWrites=true&w=majority&appName=TruthFrame
+GOOGLE_CLOUD_PROJECT=
+GOOGLE_CLOUD_LOCATION=
+

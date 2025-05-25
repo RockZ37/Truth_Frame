@@ -1,0 +1,8 @@
+{
+  "imports": {
+    "std/": "https://deno.land/std@0.208.0/",
+    "http/": "https://deno.land/std@0.208.0/http/",
+    "mongodb": "npm:mongodb@6.5.0",
+    "@deno/types": "https://deno.land/x/types/mod.ts"
+  }
+}

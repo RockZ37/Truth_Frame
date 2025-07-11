@@ -14,10 +14,11 @@ const Dashboard: React.FC = () => {
   } = useAnalysis();
   
   useEffect(() => {
-    fetchTrendingTopics();
     // Set page title
     document.title = 'Truth_Frame | Media Bias Analyzer';
-  }, [fetchTrendingTopics]);
+    // Fetch trending topics
+    fetchTrendingTopics();
+  }, []); // Empty dependency array since fetchTrendingTopics is now memoized
   
   return (
     <div>

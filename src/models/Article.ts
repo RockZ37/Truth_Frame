@@ -37,49 +37,43 @@ export interface IArticle extends Document {
   updatedAt: Date;
 }
 
-const ArticleSchema = new Schema<IArticle>({
-  url: { type: String, required: true, unique: true },
-  title: { type: String, required: true },
-  source: { type: String, required: true },
-  author: { type: String, required: true },
-  publishedDate: { type: Date, required: true },
-  content: { type: String, required: true },
-  snippet: { type: String, required: true },
-  embedding: [{ type: Number }],
-  analysis: {
-    bias: {
-      score: { type: Number, required: true },
-      confidence: { type: Number, required: true },
-      leaning: { type: String, required: true },
+const ArticleSchema = new Schema<IArticle>(
+  {
+    url: { type: String, required: true, unique: true },
+    title: { type: String, required: true },
+    source: { type: String, required: true },
+    author: { type: String, required: true },
+    publishedDate: { type: Date, required: true },
+    content: { type: String, required: true },
+    snippet: { type: String, required: true },
+    embedding: [Number],
+    analysis: {
+      bias: {
+        score: Number,
+        confidence: Number,
+        leaning: String,
+      },
+      sentiment: {
+        positive: Number,
+        negative: Number,
+        neutral: Number,
+        overall: Number,
+      },
+      keywords: [{
+        text: String,
+        relevance: Number,
+        sentiment: Number,
+      }],
+      themes: [{
+        name: String,
+        keywords: [String],
+        sentiment: Number,
+        relevance: Number,
+      }],
     },
-    sentiment: {
-      positive: { type: Number, required: true },
-      negative: { type: Number, required: true },
-      neutral: { type: Number, required: true },
-      overall: { type: Number, required: true },
-    },
-    keywords: [{
-      text: { type: String, required: true },
-      relevance: { type: Number, required: true },
-      sentiment: { type: Number, required: true },
-    }],
-    themes: [{
-      name: { type: String, required: true },
-      keywords: [{ type: String }],
-      sentiment: { type: Number, required: true },
-      relevance: { type: Number, required: true },
-    }],
   },
-}, {
-  timestamps: true,
-  index: [
-    { url: 1 },
-    { source: 1 },
-    { publishedDate: -1 },
-    { 'analysis.bias.score': 1 },
-    { 'analysis.sentiment.overall': 1 },
-  ],
-});
+  { timestamps: true }
+);
 
 // Create vector search index
 ArticleSchema.index(

@@ -4,9 +4,36 @@ export interface Article {
   title: string;
   source: string;
   author: string;
-  publishedDate: string;
+  publishedDate: Date;
   content: string;
   snippet: string;
+  embedding: number[];
+  analysis: {
+    bias: {
+      score: number;
+      confidence: number;
+      leaning: string;
+    };
+    sentiment: {
+      positive: number;
+      negative: number;
+      neutral: number;
+      overall: number;
+    };
+    keywords: Array<{
+      text: string;
+      relevance: number;
+      sentiment: number;
+    }>;
+    themes: Array<{
+      name: string;
+      keywords: string[];
+      sentiment: number;
+      relevance: number;
+    }>;
+  };
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface BiasMetrics {
@@ -35,15 +62,25 @@ export interface ThemeData {
   relevance: number;
 }
 
-export interface AnalysisResult {
-  article: Article;
-  bias: BiasMetrics;
-  sentiment: SentimentMetrics;
-  keywords: KeywordData[];
-  themes: ThemeData[];
-  summary: string;
-  objectivityScore: number;
-  readabilityScore: number;
+export interface AnalysisResult extends Article {
+  topicCoverage: {
+    mainTopics: string[];
+    coverage: number;
+    depth: number;
+  };
+  sentimentAnalysis: {
+    overall: number;
+    breakdown: {
+      positive: string[];
+      negative: string[];
+      neutral: string[];
+    };
+  };
+  biasAnalysis: {
+    score: number;
+    indicators: string[];
+    examples: string[];
+  };
 }
 
 export interface SourceData {
@@ -65,49 +102,56 @@ export interface TopicCoverage {
 
 export interface ComparisonResult {
   topic: string;
-  sources: SourceData[];
+  sources: Array<{
+    name: string;
+    bias: {
+      score: number;
+      confidence: number;
+      leaning: string;
+    };
+    articleCount: number;
+    topics: string[];
+  }>;
   articles: Article[];
-  topicCoverage: TopicCoverage[];
-  overallBiasSpread: {
-    left: number;
-    centerLeft: number;
-    center: number;
-    centerRight: number;
-    right: number;
+  topicCoverage: {
+    sharedTopics: string[];
+    uniqueTopics: { [source: string]: string[] };
   };
-  keyNarratives: {
-    narrative: string;
-    sourcesBiasDistribution: {
+  overallBiasSpread: {
+    min: number;
+    max: number;
+    average: number;
+  };
+  keyNarratives: Array<{
+    topic: string;
+    perspectives: Array<{
       source: string;
-      bias: number;
-    }[];
-  }[];
+      stance: string;
+      quotes: string[];
+    }>;
+  }>;
 }
 
 export interface SearchResult {
-  id: string;
   topic: string;
   sources: string[];
-  biasRange: {
-    min: number;
-    max: number;
-    avg: number;
-  };
-  sentimentRange: {
-    min: number;
-    max: number;
-    avg: number;
-  };
+  biasRange: [number, number];
+  sentimentRange: [number, number];
   articleCount: number;
-  lastUpdated: string;
+  articles: Article[];
 }
 
 export interface TrendingTopic {
   id: string;
   topic: string;
-  momentum: number; // how quickly it's gaining attention
-  biasVariance: number; // how much bias varies across sources
-  dominantLeaning: 'left' | 'center-left' | 'center' | 'center-right' | 'right' | 'unknown';
-  sourceCount: number;
-  lastUpdated: string;
+  count: number;
+  sentiment: number;
+  momentum: number;
+  biasVariance: number;
+  sources: Array<{
+    name: string;
+    count: number;
+    bias: number;
+  }>;
+  recentArticles: Article[];
 }
